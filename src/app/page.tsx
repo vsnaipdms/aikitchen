@@ -118,11 +118,35 @@ export default function Home() {
   const [toast, setToast] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log("Component mounted");
+    console.log("STORAGE_KEYS.RECENT =", STORAGE_KEYS.RECENT);
+    console.log("localStorage on mount:", JSON.stringify(localStorage));
+    console.log("localStorage recent value on mount:", localStorage.getItem(STORAGE_KEYS.RECENT));
+  }, []);
+
+  useEffect(() => {
     if (toast) {
       const t = setTimeout(() => setToast(null), 2000);
       return () => clearTimeout(t);
     }
   }, [toast]);
+
+  function handleClear() {
+    console.log("Clear button clicked");
+    console.log("STORAGE_KEYS.RECENT =", STORAGE_KEYS.RECENT);
+    console.log("localStorage keys:", Object.keys(localStorage));
+    console.log("localStorage recent value before:", localStorage.getItem(STORAGE_KEYS.RECENT));
+    console.log("Before clear - recentSearches:", recentSearches);
+
+    setRecentSearches([]);
+    localStorage.removeItem(STORAGE_KEYS.RECENT);
+
+    console.log("After clear - recentSearches set to: []");
+    console.log("localStorage keys after removeItem:", Object.keys(localStorage));
+    console.log("localStorage recent value after:", localStorage.getItem(STORAGE_KEYS.RECENT));
+
+    setToast("Recent searches cleared");
+  }
 
   const addIngredient = useCallback((name: string) => {
     setIngredients((prev) => [...prev, name]);
@@ -142,6 +166,8 @@ export default function Home() {
       const result = await suggestDishes(ingredients);
       setDishes(result);
       const q = ingredients.join(", ");
+      console.log("Saving search with key:", STORAGE_KEYS.RECENT);
+      console.log("localStorage keys on save:", Object.keys(localStorage));
       setRecentSearches((prev) => [q, ...prev.filter((s) => s !== q)].slice(0, 8));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
@@ -360,11 +386,7 @@ export default function Home() {
                 Recent Searches
               </h3>
               <button
-                onClick={() => {
-                  setRecentSearches([]);
-                  localStorage.removeItem(STORAGE_KEYS.RECENT);
-                  setToast("Recent searches cleared");
-                }}
+                onClick={handleClear}
                 className="text-xs font-medium text-gray-400 hover:text-red-500 transition-colors flex items-center gap-1"
               >
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
