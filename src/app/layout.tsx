@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "AI Kitchen - Recipe Generator",
-  description: "Enter ingredients you have at home and discover recipes instantly with AI.",
+  title: "AI Kitchen - Turn Ingredients Into Delicious Meals",
+  description: "AI-powered recipe generator. Enter ingredients you have at home and discover delicious recipes instantly with AI suggestions, images, and video tutorials.",
   openGraph: {
-    title: "AI Kitchen - Recipe Generator",
-    description: "Enter ingredients and discover recipes instantly with AI.",
+    title: "AI Kitchen - Turn Ingredients Into Delicious Meals",
+    description: "Discover recipes instantly using ingredients already available at home.",
     type: "website",
   },
 };
