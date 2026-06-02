@@ -94,26 +94,28 @@ export default function Home() {
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute -top-40 -right-40 w-80 h-80 bg-orange-300/20 dark:bg-orange-500/5 rounded-full blur-3xl animate-pulse-soft" />
             <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-red-300/20 dark:bg-red-500/5 rounded-full blur-3xl animate-pulse-soft" />
-            <motion.div
-              animate={{ y: [0, -20, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-1/4 right-1/4 w-16 h-16 text-4xl opacity-20"
-            >🍅</motion.div>
-            <motion.div
-              animate={{ y: [0, -15, 0] }}
-              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              className="absolute top-1/3 left-1/4 w-12 h-12 text-3xl opacity-20"
-            >🥬</motion.div>
-            <motion.div
-              animate={{ y: [0, -25, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-              className="absolute bottom-1/3 right-1/3 w-14 h-14 text-4xl opacity-20"
-            >🧅</motion.div>
-            <motion.div
-              animate={{ y: [0, -18, 0] }}
-              transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-              className="absolute bottom-1/4 left-1/3 w-10 h-10 text-3xl opacity-20"
-            >🌶️</motion.div>
+            <div className="hidden sm:block">
+              <motion.div
+                animate={{ y: [0, -20, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute top-1/4 right-1/4 w-16 h-16 text-4xl opacity-20"
+              >🍅</motion.div>
+              <motion.div
+                animate={{ y: [0, -15, 0] }}
+                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                className="absolute top-1/3 left-1/4 w-12 h-12 text-3xl opacity-20"
+              >🥬</motion.div>
+              <motion.div
+                animate={{ y: [0, -25, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                className="absolute bottom-1/3 right-1/3 w-14 h-14 text-4xl opacity-20"
+              >🧅</motion.div>
+              <motion.div
+                animate={{ y: [0, -18, 0] }}
+                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+                className="absolute bottom-1/4 left-1/3 w-10 h-10 text-3xl opacity-20"
+              >🌶️</motion.div>
+            </div>
           </div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-24 pb-16">
@@ -148,15 +150,15 @@ export default function Home() {
                     Watch Demo
                   </a>
                 </div>
-                <div className="flex flex-wrap items-center gap-4 mt-8 pt-6 border-t border-gray-200 dark:border-gray-800">
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 mt-8 pt-6 border-t border-gray-200 dark:border-gray-800">
                   {[
                     { label: "AI Recipes", icon: "🤖" },
                     { label: "Food Images", icon: "🖼️" },
                     { label: "Recipe Videos", icon: "🎥" },
                     { label: "Fast Suggestions", icon: "⚡" },
                   ].map((f) => (
-                    <span key={f.label} className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
-                      <span className="text-green-500">✓</span> {f.label}
+                    <span key={f.label} className="flex items-center gap-1.5 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                      <span className="flex items-center justify-center w-4 h-4 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-[10px] font-bold">✓</span> {f.label}
                     </span>
                   ))}
                 </div>
@@ -269,17 +271,18 @@ export default function Home() {
               </p>
             </FadeUp>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
               {features.map((f, i) => (
                 <FadeUp key={f.title} delay={i * 0.1}>
                   <motion.div
-                    whileHover={{ y: -8 }}
-                    className="group p-6 bg-[#fefcf8] dark:bg-[#1a1a2e] rounded-2xl border border-orange-100 dark:border-gray-800 shadow-lg shadow-black/5 hover:shadow-2xl hover:shadow-orange-500/10 transition-all"
+                    whileHover={{ y: -6 }}
+                    className="group relative p-6 bg-white dark:bg-[#1a1a2e] rounded-2xl border border-orange-100 dark:border-gray-800 shadow-lg shadow-black/5 hover:shadow-2xl hover:shadow-orange-500/15 transition-all overflow-hidden"
                   >
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-orange-500/5 to-transparent rounded-bl-full" />
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 group-hover:rotate-3 transition-transform">
                       {f.icon}
                     </div>
-                    <h3 className="font-bold text-gray-800 dark:text-white mb-2">{f.title}</h3>
+                    <h3 className="font-bold text-gray-800 dark:text-white mb-2 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">{f.title}</h3>
                     <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">{f.desc}</p>
                   </motion.div>
                 </FadeUp>
@@ -296,19 +299,20 @@ export default function Home() {
               <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mt-4">Loved by Home Cooks</h2>
             </FadeUp>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
               {testimonials.map((t, i) => (
                 <FadeUp key={t.name} delay={i * 0.1}>
-                  <div className="p-6 bg-white dark:bg-[#1a1a2e] rounded-2xl border border-orange-100 dark:border-gray-800 shadow-lg">
-                    <div className="flex items-center gap-3 mb-3">
+                  <div className="relative p-6 bg-white dark:bg-[#1a1a2e] rounded-2xl border border-orange-100 dark:border-gray-800 shadow-lg hover:shadow-xl hover:border-orange-200 dark:hover:border-orange-800 transition-all">
+                    <div className="absolute top-0 left-0 w-12 h-12 bg-gradient-to-br from-orange-500/10 to-transparent rounded-br-2xl" />
+                    <div className="flex items-center gap-3 mb-4">
                       <span className="text-3xl">{t.avatar}</span>
                       <div>
                         <p className="font-semibold text-gray-800 dark:text-white text-sm">{t.name}</p>
                         <p className="text-xs text-gray-500 dark:text-gray-400">{t.role}</p>
                       </div>
                     </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">&ldquo;{t.text}&rdquo;</p>
-                    <div className="flex items-center gap-0.5 mt-3">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed italic">&ldquo;{t.text}&rdquo;</p>
+                    <div className="flex items-center gap-0.5 mt-4">
                       {[1, 2, 3, 4, 5].map((s) => (
                         <svg key={s} className="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
@@ -328,25 +332,26 @@ export default function Home() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="max-w-5xl mx-auto relative overflow-hidden rounded-3xl bg-gradient-to-br from-orange-500 via-red-500 to-orange-600 p-10 sm:p-16 text-center"
+            className="max-w-5xl mx-auto relative overflow-hidden rounded-3xl bg-gradient-to-br from-orange-500 via-red-500 to-orange-600 p-8 sm:p-16 text-center"
           >
             <div className="absolute inset-0 pointer-events-none">
               <div className="absolute -top-20 -right-20 w-60 h-60 bg-white/10 rounded-full blur-3xl" />
               <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-white/10 rounded-full blur-3xl" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-white/5 rounded-full blur-2xl" />
             </div>
             <div className="relative z-10">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
+              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
                 Ready to Cook Smarter?
               </h2>
-              <p className="text-orange-100 mt-3 text-lg max-w-lg mx-auto">
+              <p className="text-orange-100 mt-3 text-sm sm:text-lg max-w-lg mx-auto">
                 Start discovering delicious recipes with ingredients you already have.
               </p>
               <a
                 href="#ingredients"
-                className="inline-flex items-center gap-2 px-8 py-4 mt-8 bg-white text-orange-600 font-bold rounded-xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all"
+                className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 mt-6 sm:mt-8 bg-white text-orange-600 font-bold rounded-xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all"
               >
                 Start Cooking
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </a>

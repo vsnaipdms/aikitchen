@@ -60,7 +60,7 @@ export default function FavoritesPage() {
                   </div>
                   <button
                     onClick={() => removeFavorite(fav.dishName)}
-                    className="p-2 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/30 text-gray-400 hover:text-red-500 transition-all opacity-0 group-hover:opacity-100"
+                    className="p-2 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/30 text-gray-400 hover:text-red-500 transition-all opacity-60 sm:opacity-0 group-hover:opacity-100"
                     aria-label={`Remove ${fav.dishName} from favorites`}
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>

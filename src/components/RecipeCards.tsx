@@ -24,16 +24,19 @@ function DishImage({ name }: { name: string }) {
 
   if (err) {
     return (
-      <div className="h-48 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 flex items-center justify-center">
+      <div className="h-40 sm:h-48 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 flex items-center justify-center">
         <span className="text-5xl opacity-40">🍽️</span>
       </div>
     );
   }
 
   return (
-    <div className="relative h-48 bg-orange-50 dark:bg-gray-800 overflow-hidden">
+    <div className="relative h-40 sm:h-48 bg-orange-50 dark:bg-gray-800 overflow-hidden">
       {img ? (
-        <img src={img} alt={name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
+        <>
+          <img src={img} alt={name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+        </>
       ) : (
         <div className="flex items-center justify-center h-full">
           <div className="w-6 h-6 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
