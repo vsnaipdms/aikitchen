@@ -1,16 +1,15 @@
 "use client";
 
 import { useState, useCallback, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { motion, useInView } from "framer-motion";
-import type { Dish, Recipe } from "@/types";
-import { suggestDishes, generateRecipe } from "@/services/ai";
+import type { Dish } from "@/types";
+import { suggestDishes } from "@/services/ai";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { useFavorites } from "@/hooks/useFavorites";
 import { STORAGE_KEYS } from "@/utils/constants";
 import Header from "@/components/Header";
 import IngredientInput from "@/components/IngredientInput";
 import RecipeCards from "@/components/RecipeCards";
-import RecipeDetails from "@/components/RecipeDetails";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
 
@@ -44,15 +43,12 @@ const testimonials = [
 ];
 
 export default function Home() {
+  const router = useRouter();
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [dishes, setDishes] = useState<Dish[]>([]);
-  const [selectedDish, setSelectedDish] = useState<Dish | null>(null);
-  const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
-  const [loadingRecipe, setLoadingRecipe] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [recentSearches, setRecentSearches] = useLocalStorage<string[]>(STORAGE_KEYS.RECENT, []);
-  const { isFavorite, toggleFavorite } = useFavorites();
 
   const addIngredient = useCallback((name: string) => {
     setIngredients((prev) => [...prev, name]);
@@ -67,8 +63,6 @@ export default function Home() {
     setLoadingSuggestions(true);
     setError(null);
     setDishes([]);
-    setRecipe(null);
-    setSelectedDish(null);
 
     try {
       const result = await suggestDishes(ingredients);
@@ -82,36 +76,13 @@ export default function Home() {
     }
   }, [ingredients, setRecentSearches]);
 
-  const handleSelectDish = useCallback(async (dish: Dish) => {
-    setSelectedDish(dish);
-    setLoadingRecipe(true);
-    setRecipe(null);
-
-    try {
-      const result = await generateRecipe(dish.name, ingredients);
-      setRecipe(result);
-    } catch {
-      setRecipe({
-        dishName: dish.name,
-        ingredients: [],
-        servings: 2,
-        cookingTime: dish.cookingTime,
-        difficulty: dish.difficulty,
-        cuisine: dish.cuisine,
-        isVeg: dish.isVeg,
-        prepSteps: ["Could not generate recipe. Please try again."],
-        cookSteps: [],
-        tips: [],
-        extraIngredients: [],
-      });
-    } finally {
-      setLoadingRecipe(false);
-    }
-  }, [ingredients]);
-
-  const handleToggleFavorite = useCallback(() => {
-    if (recipe) toggleFavorite({ dishName: recipe.dishName, ingredients: recipe.ingredients });
-  }, [recipe, toggleFavorite]);
+  const handleSelectDish = useCallback(
+    (dish: Dish) => {
+      const slug = dish.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+      router.push(`/recipes/${slug}?ingredients=${encodeURIComponent(ingredients.join(","))}`);
+    },
+    [ingredients, router]
+  );
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -284,19 +255,6 @@ export default function Home() {
         {(dishes.length > 0 || loadingSuggestions) && (
           <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
             <RecipeCards dishes={dishes} onSelect={handleSelectDish} loading={loadingSuggestions} />
-          </section>
-        )}
-
-        {/* RECIPE DETAILS */}
-        {(selectedDish || loadingRecipe) && (
-          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-            <RecipeDetails
-              recipe={recipe}
-              loading={loadingRecipe}
-              isFavorite={recipe ? isFavorite(recipe.dishName) : false}
-              onToggleFavorite={handleToggleFavorite}
-              onClose={() => { setRecipe(null); setSelectedDish(null); }}
-            />
           </section>
         )}
 

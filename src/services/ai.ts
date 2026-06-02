@@ -1,4 +1,6 @@
-export async function suggestDishes(ingredients: string[]) {
+import type { Dish, Recipe } from "@/types";
+
+export async function suggestDishes(ingredients: string[]): Promise<Dish[]> {
   const res = await fetch("/api/suggest-dishes", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -12,7 +14,7 @@ export async function suggestDishes(ingredients: string[]) {
   return data.dishes;
 }
 
-export async function generateRecipe(dishName: string, ingredients: string[]) {
+export async function generateRecipe(dishName: string, ingredients: string[]): Promise<Recipe> {
   const res = await fetch("/api/generate-recipe", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
