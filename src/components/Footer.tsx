@@ -52,11 +52,12 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* Details */}
           <div>
-            <h3 className="font-semibold text-white mb-4 text-sm tracking-wide uppercase">Contact</h3>
+            <h3 className="font-semibold text-white mb-4 text-sm tracking-wide uppercase">Design &amp; Develop</h3>
             <div className="space-y-3 text-sm">
               <p className="font-medium text-white">Venkat Shyam.N</p>
+              <p className="text-gray-400 text-xs">Designer | Developer | AI Digital Marketer</p>
               <div>
                 <a href="https://venkatshyamn.com/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-orange-400 transition-colors flex items-center gap-1.5 group">
                   <svg className="w-3.5 h-3.5 shrink-0 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" /></svg>
