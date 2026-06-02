@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, useInView } from "framer-motion";
 import type { Dish } from "@/types";
@@ -115,6 +115,14 @@ export default function Home() {
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [recentSearches, setRecentSearches] = useLocalStorage<string[]>(STORAGE_KEYS.RECENT, []);
+  const [toast, setToast] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (toast) {
+      const t = setTimeout(() => setToast(null), 2000);
+      return () => clearTimeout(t);
+    }
+  }, [toast]);
 
   const addIngredient = useCallback((name: string) => {
     setIngredients((prev) => [...prev, name]);
@@ -352,7 +360,11 @@ export default function Home() {
                 Recent Searches
               </h3>
               <button
-                onClick={() => setRecentSearches([])}
+                onClick={() => {
+                  setRecentSearches([]);
+                  localStorage.removeItem(STORAGE_KEYS.RECENT);
+                  setToast("Recent searches cleared");
+                }}
                 className="text-xs font-medium text-gray-400 hover:text-red-500 transition-colors flex items-center gap-1"
               >
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -509,6 +521,12 @@ export default function Home() {
           </motion.div>
         </section>
       </main>
+
+      {toast && (
+        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-sm font-medium rounded-xl shadow-2xl transition-opacity">
+          {toast}
+        </div>
+      )}
 
       <ScrollToTop />
       <Footer />
