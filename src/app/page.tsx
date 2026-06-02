@@ -216,32 +216,47 @@ export default function Home() {
         </section>
 
         {/* INGREDIENT SEARCH */}
-        <section id="ingredients" className="relative -mt-20 z-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto mb-12">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="bg-white/80 dark:bg-[#1a1a2e]/80 backdrop-blur-xl rounded-2xl shadow-2xl shadow-orange-500/10 border border-white/20 dark:border-gray-800/50 p-6 sm:p-8"
-          >
-            <div className="text-center mb-6">
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white">What ingredients do you have?</h2>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Type ingredients and let AI find the perfect recipe</p>
-            </div>
-            <IngredientInput
-              ingredients={ingredients}
-              onAdd={addIngredient}
-              onRemove={removeIngredient}
-              onSearch={handleSearch}
-              loading={loadingSuggestions}
-              recentSearches={recentSearches}
-              onRecentClick={(q) => {
-                q.split(", ").filter(Boolean).forEach((item) => {
-                  if (!ingredients.some((v) => v.toLowerCase() === item.toLowerCase())) addIngredient(item);
-                });
-              }}
-            />
-          </motion.div>
+        <section id="ingredients" className="relative overflow-hidden py-12 sm:py-16 lg:py-20">
+          <div className="absolute inset-0 bg-gradient-to-b from-orange-50/80 via-orange-50/40 to-transparent dark:from-orange-900/10 dark:via-orange-900/5 dark:to-transparent" />
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-10 left-[10%] w-32 h-32 bg-orange-300/20 dark:bg-orange-500/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-10 right-[15%] w-40 h-40 bg-red-300/20 dark:bg-red-500/10 rounded-full blur-3xl" />
+            <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} className="absolute top-8 left-[8%] text-2xl sm:text-3xl opacity-30">🥬</motion.div>
+            <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }} className="absolute top-12 right-[12%] text-2xl sm:text-3xl opacity-30">🧄</motion.div>
+            <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.5 }} className="absolute bottom-16 left-[15%] text-2xl sm:text-3xl opacity-30">🌶️</motion.div>
+            <motion.div animate={{ y: [0, -18, 0] }} transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut", delay: 0.5 }} className="absolute bottom-20 right-[8%] text-2xl sm:text-3xl opacity-30">🍅</motion.div>
+          </div>
+          <div className="relative z-10 w-[90%] max-w-[1400px] mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="bg-white/70 dark:bg-[#1a1a2e]/70 backdrop-blur-2xl rounded-[24px] shadow-2xl shadow-orange-500/15 border border-white/30 dark:border-gray-800/50 p-6 sm:p-8 lg:p-10"
+            >
+              <div className="text-center mb-6 sm:mb-8">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white">
+                  What ingredients do you have today?
+                </h2>
+                <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mt-2">
+                  Add ingredients and let AI discover delicious recipes
+                </p>
+              </div>
+              <IngredientInput
+                ingredients={ingredients}
+                onAdd={addIngredient}
+                onRemove={removeIngredient}
+                onSearch={handleSearch}
+                loading={loadingSuggestions}
+                recentSearches={recentSearches}
+                onRecentClick={(q) => {
+                  q.split(", ").filter(Boolean).forEach((item) => {
+                    if (!ingredients.some((v) => v.toLowerCase() === item.toLowerCase())) addIngredient(item);
+                  });
+                }}
+              />
+            </motion.div>
+          </div>
         </section>
 
         {/* ERROR */}

@@ -6,6 +6,7 @@ import Link from "next/link";
 export default function Header() {
   const [dark, setDark] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem("aikitchen_theme");
@@ -32,14 +33,15 @@ export default function Header() {
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "glass shadow-lg" : "bg-transparent"}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
+        <Link href="/" className="flex items-center gap-2 group z-50" onClick={() => setMenuOpen(false)}>
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-lg shadow-orange-500/20">
             <span className="text-white font-bold text-sm">AI</span>
           </div>
           <span className="font-bold text-lg text-gray-800 dark:text-white group-hover:text-orange-500 dark:group-hover:text-orange-400 transition-colors">Kitchen</span>
         </Link>
 
-        <div className="flex items-center gap-3">
+        {/* Desktop nav */}
+        <div className="hidden sm:flex items-center gap-3">
           <Link
             href="/favorites"
             className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-gray-800 rounded-lg transition-all"
@@ -65,7 +67,57 @@ export default function Header() {
             )}
           </button>
         </div>
+
+        {/* Hamburger */}
+        <div className="flex sm:hidden items-center gap-2">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="p-2 rounded-lg hover:bg-orange-50 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300 transition-colors z-50"
+            aria-label="Toggle menu"
+          >
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              {menuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
+
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div className="sm:hidden fixed inset-0 bg-white/95 dark:bg-[#0f0f1a]/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center gap-8">
+          <Link
+            href="/"
+            onClick={() => setMenuOpen(false)}
+            className="text-xl font-bold text-gray-800 dark:text-white hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
+          >
+            Home
+          </Link>
+          <Link
+            href="/favorites"
+            onClick={() => setMenuOpen(false)}
+            className="text-xl font-bold text-gray-800 dark:text-white hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
+          >
+            Favorites
+          </Link>
+          <a
+            href="#ingredients"
+            onClick={() => setMenuOpen(false)}
+            className="text-xl font-bold text-gray-800 dark:text-white hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
+          >
+            Find Recipes
+          </a>
+          <button
+            onClick={() => { toggleDark(); setMenuOpen(false); }}
+            className="flex items-center gap-2 px-6 py-3 bg-orange-50 dark:bg-gray-800 rounded-xl text-gray-800 dark:text-white font-medium"
+          >
+            {dark ? "☀️ Light Mode" : "🌙 Dark Mode"}
+          </button>
+        </div>
+      )}
     </header>
   );
 }
