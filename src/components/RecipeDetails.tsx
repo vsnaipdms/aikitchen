@@ -36,28 +36,29 @@ export default function RecipeDetails({ recipe, loading, isFavorite, onToggleFav
   }
 
   if (!recipe) return null;
+  const r = recipe;
 
   function handleCopy() {
     const parts = [
-      `🍳 ${recipe.dishName}`,
+      `🍳 ${r.dishName}`,
       "",
       "Ingredients:",
-      ...recipe.ingredients.map((i) => `  • ${i}`),
+      ...r.ingredients.map((i) => `  • ${i}`),
       "",
       "Preparation:",
-      ...recipe.prepSteps.map((s, i) => `  ${i + 1}. ${s}`),
+      ...r.prepSteps.map((s, i) => `  ${i + 1}. ${s}`),
       "",
       "Cooking Instructions:",
-      ...recipe.cookSteps.map((s, i) => `  ${i + 1}. ${s}`),
+      ...r.cookSteps.map((s, i) => `  ${i + 1}. ${s}`),
       "",
-      `Time: ${recipe.cookingTime} | Servings: ${recipe.servings}`,
+      `Time: ${r.cookingTime} | Servings: ${r.servings}`,
     ];
     navigator.clipboard.writeText(parts.join("\n")).catch(() => {});
   }
 
   function handleShare() {
-    const text = `🍳 ${recipe.dishName}\n${recipe.ingredients.join(", ")}\nTime: ${recipe.cookingTime}`;
-    if (navigator.share) navigator.share({ title: recipe.dishName, text }).catch(() => {});
+    const text = `🍳 ${r.dishName}\n${r.ingredients.join(", ")}\nTime: ${r.cookingTime}`;
+    if (navigator.share) navigator.share({ title: r.dishName, text }).catch(() => {});
     else navigator.clipboard.writeText(text).catch(() => {});
   }
 
