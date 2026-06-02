@@ -1,32 +1,55 @@
 "use client";
 
+import { useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { useFavorites } from "@/hooks/useFavorites";
-import Link from "next/link";
+import { DIFFICULTY_COLORS } from "@/utils/constants";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
 
 export default function FavoritesPage() {
-  const { favorites, removeFavorite } = useFavorites();
+  const router = useRouter();
+  const { favorites, removeFavorite, clearAll } = useFavorites();
+
+  const handleClick = useCallback(
+    (name: string, ingredients: string[]) => {
+      const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+      router.push(`/recipes/${slug}?ingredients=${encodeURIComponent(ingredients.join(","))}`);
+    },
+    [router]
+  );
 
   return (
     <div className="min-h-screen flex flex-col bg-[#fefcf8] dark:bg-[#0f0f1a]">
       <Header />
       <main className="flex-1 pt-24 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Favorites</h1>
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                {favorites.length > 0 ? `You have ${favorites.length} saved ${favorites.length === 1 ? "recipe" : "recipes"}` : "Save recipes to access them quickly"}
+                {favorites.length > 0
+                  ? `You have ${favorites.length} saved ${favorites.length === 1 ? "recipe" : "recipes"}`
+                  : "Save recipes to access them quickly"}
               </p>
             </div>
-            <Link
-              href="/"
-              className="px-4 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-semibold rounded-xl hover:from-orange-600 hover:to-red-600 transition-all shadow-lg shadow-orange-500/25"
-            >
-              Find Recipes
-            </Link>
+            <div className="flex items-center gap-2">
+              {favorites.length > 0 && (
+                <button
+                  onClick={clearAll}
+                  className="px-4 py-2 text-sm font-medium text-red-500 hover:text-red-600 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-xl transition-all"
+                >
+                  Clear All
+                </button>
+              )}
+              <button
+                onClick={() => router.push("/")}
+                className="px-4 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-semibold rounded-xl hover:from-orange-600 hover:to-red-600 transition-all shadow-lg shadow-orange-500/25"
+              >
+                Find Recipes
+              </button>
+            </div>
           </div>
 
           {favorites.length === 0 ? (
@@ -36,31 +59,67 @@ export default function FavoritesPage() {
               </div>
               <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-2">No favorites yet</h2>
               <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">Start exploring recipes and save your favorites!</p>
-              <Link
-                href="/"
+              <button
+                onClick={() => router.push("/")}
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-semibold rounded-xl hover:from-orange-600 hover:to-red-600 transition-all shadow-lg shadow-orange-500/25"
               >
                 Discover Recipes
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
-              </Link>
+              </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3">
               {favorites.map((fav) => (
                 <div
                   key={fav.dishName}
-                  className="group flex items-center justify-between bg-white dark:bg-[#1a1a2e] rounded-2xl border border-orange-100 dark:border-gray-800 p-4 hover:shadow-lg hover:border-orange-300 dark:hover:border-orange-700 transition-all"
+                  onClick={() => handleClick(fav.dishName, fav.ingredients)}
+                  className="group flex items-center justify-between bg-white dark:bg-[#1a1a2e] rounded-2xl border border-orange-100 dark:border-gray-800 p-4 hover:shadow-lg hover:border-orange-300 dark:hover:border-orange-700 transition-all cursor-pointer"
                 >
-                  <div className="min-w-0">
-                    <p className="font-semibold text-gray-800 dark:text-white group-hover:text-orange-500 dark:group-hover:text-orange-400 transition-colors">{fav.dishName}</p>
-                    <p className="text-xs text-gray-400 mt-1 truncate">{fav.ingredients.slice(0, 5).join(", ")}{fav.ingredients.length > 5 ? "..." : ""}</p>
-                    <p className="text-xs text-gray-500 mt-1">{new Date(fav.savedAt).toLocaleDateString()}</p>
+                  <div className="flex items-center gap-4 min-w-0 flex-1">
+                    <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl shrink-0 flex items-center justify-center text-2xl ${
+                      fav.isVeg
+                        ? "bg-green-50 dark:bg-green-900/20"
+                        : "bg-red-50 dark:bg-red-900/20"
+                    }`}>
+                      {fav.isVeg ? "🥦" : "🍗"}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-semibold text-gray-800 dark:text-white group-hover:text-orange-500 dark:group-hover:text-orange-400 transition-colors">
+                        {fav.dishName}
+                      </p>
+                      <p className="text-xs text-gray-400 mt-0.5 truncate">
+                        {fav.ingredients.length > 0
+                          ? fav.ingredients.slice(0, 5).join(", ") + (fav.ingredients.length > 5 ? "..." : "")
+                          : fav.description || "No ingredients saved"}
+                      </p>
+                      <div className="flex flex-wrap items-center gap-2 mt-1.5">
+                        {fav.cookingTime && (
+                          <span className="text-[10px] px-2 py-0.5 bg-orange-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400 rounded-full font-medium">
+                            ⏱ {fav.cookingTime}
+                          </span>
+                        )}
+                        {fav.difficulty && (
+                          <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${fav.difficulty ? DIFFICULTY_COLORS[fav.difficulty] : ""}`}>
+                            {fav.difficulty}
+                          </span>
+                        )}
+                        {fav.cuisine && (
+                          <span className="text-[10px] px-2 py-0.5 bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400 rounded-full font-medium">
+                            {fav.cuisine}
+                          </span>
+                        )}
+                        <span className="text-[10px] text-gray-400 ml-auto">{new Date(fav.savedAt).toLocaleDateString()}</span>
+                      </div>
+                    </div>
                   </div>
                   <button
-                    onClick={() => removeFavorite(fav.dishName)}
-                    className="p-2 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/30 text-gray-400 hover:text-red-500 transition-all opacity-60 sm:opacity-0 group-hover:opacity-100"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeFavorite(fav.dishName);
+                    }}
+                    className="p-2 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/30 text-gray-400 hover:text-red-500 transition-all shrink-0 ml-2"
                     aria-label={`Remove ${fav.dishName} from favorites`}
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>

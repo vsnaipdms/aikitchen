@@ -35,4 +35,9 @@ export interface FavoriteRecipe {
   dishName: string;
   savedAt: number;
   ingredients: string[];
+  description?: string;
+  cookingTime?: string;
+  difficulty?: string;
+  cuisine?: string;
+  isVeg?: boolean;
 }

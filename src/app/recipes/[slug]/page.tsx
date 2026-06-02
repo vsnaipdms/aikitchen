@@ -88,7 +88,15 @@ export default function RecipePage() {
   );
 
   function handleFavorite() {
-    if (recipe) toggleFavorite({ dishName: recipe.dishName, ingredients: recipe.ingredients });
+    if (recipe) toggleFavorite({
+      dishName: recipe.dishName,
+      ingredients: recipe.ingredients,
+      cookingTime: recipe.cookingTime,
+      difficulty: recipe.difficulty,
+      cuisine: recipe.cuisine,
+      isVeg: recipe.isVeg,
+      savedAt: Date.now(),
+    });
   }
 
   function handleShare() {

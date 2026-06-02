@@ -13,7 +13,7 @@ export function useFavorites() {
   );
 
   const toggleFavorite = useCallback(
-    (recipe: { dishName: string; ingredients: string[] }) => {
+    (recipe: FavoriteRecipe) => {
       setFavorites((prev) => {
         const exists = prev.some((f) => f.dishName === recipe.dishName);
         return exists
@@ -29,5 +29,10 @@ export function useFavorites() {
     [setFavorites]
   );
 
-  return { favorites, isFavorite, toggleFavorite, removeFavorite };
+  const clearAll = useCallback(
+    () => setFavorites([]),
+    [setFavorites]
+  );
+
+  return { favorites, isFavorite, toggleFavorite, removeFavorite, clearAll };
 }

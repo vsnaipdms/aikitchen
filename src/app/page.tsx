@@ -259,6 +259,55 @@ export default function Home() {
           </div>
         </section>
 
+        {/* RECENT SEARCHES */}
+        {recentSearches.length > 0 && (
+          <section className="max-w-[1400px] w-[90%] mx-auto pb-8 -mt-6">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Recent Searches
+              </h3>
+              <button
+                onClick={() => setRecentSearches([])}
+                className="text-xs font-medium text-gray-400 hover:text-red-500 transition-colors flex items-center gap-1"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                </svg>
+                Clear
+              </button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {recentSearches.map((q, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    const items = q.split(", ").filter(Boolean);
+                    setIngredients(items);
+                    if (items.length > 0) {
+                      setDishes([]);
+                      setError(null);
+                      setLoadingSuggestions(true);
+                      suggestDishes(items).then((result) => {
+                        setDishes(result);
+                        setLoadingSuggestions(false);
+                      }).catch((err) => {
+                        setError(err instanceof Error ? err.message : "Something went wrong");
+                        setLoadingSuggestions(false);
+                      });
+                    }
+                  }}
+                  className="px-4 py-2 text-sm bg-white dark:bg-[#1a1a2e] hover:bg-orange-50 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-orange-300 dark:hover:border-orange-700 shadow-sm hover:shadow-md transition-all"
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* ERROR */}
         {error && (
           <section className="max-w-4xl mx-auto px-4 sm:px-6 pb-6">
