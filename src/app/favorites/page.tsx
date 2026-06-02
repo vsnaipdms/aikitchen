@@ -4,6 +4,7 @@ import { useFavorites } from "@/hooks/useFavorites";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ScrollToTop from "@/components/ScrollToTop";
 
 export default function FavoritesPage() {
   const { favorites, removeFavorite } = useFavorites();
@@ -72,6 +73,7 @@ export default function FavoritesPage() {
           )}
         </div>
       </main>
+      <ScrollToTop />
       <Footer />
     </div>
   );

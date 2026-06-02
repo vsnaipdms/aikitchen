@@ -12,6 +12,7 @@ import IngredientInput from "@/components/IngredientInput";
 import RecipeCards from "@/components/RecipeCards";
 import RecipeDetails from "@/components/RecipeDetails";
 import Footer from "@/components/Footer";
+import ScrollToTop from "@/components/ScrollToTop";
 
 function FadeUp({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   const ref = useRef(null);
@@ -396,6 +397,7 @@ export default function Home() {
         </section>
       </main>
 
+      <ScrollToTop />
       <Footer />
     </div>
   );
