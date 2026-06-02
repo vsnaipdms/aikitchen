@@ -336,12 +336,6 @@ export default function Home() {
                 onRemove={removeIngredient}
                 onSearch={handleSearch}
                 loading={loadingSuggestions}
-                recentSearches={recentSearches}
-                onRecentClick={(q) => {
-                  q.split(", ").filter(Boolean).forEach((item) => {
-                    if (!ingredients.some((v) => v.toLowerCase() === item.toLowerCase())) addIngredient(item);
-                  });
-                }}
               />
             </motion.div>
           </div>
