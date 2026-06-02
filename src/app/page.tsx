@@ -30,17 +30,83 @@ function FadeUp({ children, delay = 0, className = "" }: { children: React.React
 }
 
 const features = [
-  { icon: "🤖", title: "AI Powered Suggestions", desc: "Enter ingredients and get instant recipe suggestions powered by advanced AI." },
-  { icon: "🖼️", title: "Dynamic Food Images", desc: "Beautiful food photography fetched dynamically for every recipe suggestion." },
-  { icon: "🎥", title: "Video Recipes", desc: "Watch step-by-step cooking tutorials embedded right in the app." },
-  { icon: "❤️", title: "Save Favorites", desc: "Bookmark your favorite recipes and access them anytime, anywhere." },
+  {
+    icon: "sparkles",
+    title: "AI Powered Suggestions",
+    desc: "Enter ingredients and get instant recipe suggestions powered by advanced AI.",
+  },
+  {
+    icon: "image",
+    title: "Dynamic Food Images",
+    desc: "Beautiful food photography fetched dynamically for every recipe suggestion.",
+  },
+  {
+    icon: "video",
+    title: "Video Recipes",
+    desc: "Watch step-by-step cooking tutorials embedded right in the app.",
+  },
+  {
+    icon: "heart",
+    title: "Save Favorites",
+    desc: "Bookmark your favorite recipes and access them anytime, anywhere.",
+  },
 ];
 
 const testimonials = [
-  { name: "Priya S.", role: "Home Cook", text: "AI Kitchen saved me so many times when I had random ingredients and no idea what to cook!", avatar: "👩‍🍳" },
-  { name: "Rajesh K.", role: "College Student", desc: "Perfect for quick meals with whatever I have in my dorm kitchen.", avatar: "👨‍🍳", text: "Perfect for quick meals with whatever I have in my dorm kitchen." },
-  { name: "Anita M.", role: "Food Blogger", desc: "The video integration is brilliant. One tap and I'm watching the recipe being made.", avatar: "🧑‍🍳", text: "The video integration is brilliant. One tap and I'm watching the recipe being made." },
+  { name: "Priya S.", role: "Home Cook", text: "AI Kitchen saved me so many times when I had random ingredients and no idea what to cook!", initials: "PS" },
+  { name: "Rajesh K.", role: "College Student", text: "Perfect for quick meals with whatever I have in my dorm kitchen.", initials: "RK" },
+  { name: "Anita M.", role: "Food Blogger", text: "The video integration is brilliant. One tap and I'm watching the recipe being made.", initials: "AM" },
 ];
+
+function FeatureIcon({ name, className }: { name: string; className?: string }) {
+  const cls = `w-7 h-7 ${className || ""}`;
+  switch (name) {
+    case "sparkles":
+      return (
+        <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" />
+        </svg>
+      );
+    case "image":
+      return (
+        <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
+        </svg>
+      );
+    case "video":
+      return (
+        <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9.75a2.25 2.25 0 002.25-2.25V7.5a2.25 2.25 0 00-2.25-2.25H4.5A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
+        </svg>
+      );
+    case "heart":
+      return (
+        <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+        </svg>
+      );
+    case "lightning":
+      return (
+        <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+        </svg>
+      );
+    case "star":
+      return (
+        <svg className={cls} fill="currentColor" viewBox="0 0 20 20">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+      );
+    case "check":
+      return (
+        <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+}
 
 export default function Home() {
   const router = useRouter();
@@ -84,6 +150,13 @@ export default function Home() {
     [ingredients, router]
   );
 
+  const heroDecorIcons = [
+    { icon: "sparkles", top: "top-1/4", right: "right-1/4", delay: 0 },
+    { icon: "image", top: "top-1/3", left: "left-1/4", delay: 1 },
+    { icon: "video", bottom: "bottom-1/3", right: "right-1/3", delay: 0.5 },
+    { icon: "heart", bottom: "bottom-1/4", left: "left-1/3", delay: 2 },
+  ];
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -91,30 +164,26 @@ export default function Home() {
       <main className="flex-1">
         {/* HERO */}
         <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-orange-50 via-white to-red-50 dark:from-[#0f0f1a] dark:via-[#1a1a2e] dark:to-[#0f0f1a]">
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute -top-40 -right-40 w-80 h-80 bg-orange-300/20 dark:bg-orange-500/5 rounded-full blur-3xl animate-pulse-soft" />
-            <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-red-300/20 dark:bg-red-500/5 rounded-full blur-3xl animate-pulse-soft" />
+          <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ isolation: "isolate" }}>
+            <div
+              className="absolute -top-40 -right-40 w-80 h-80 bg-orange-300/20 dark:bg-orange-500/5 rounded-full blur-3xl"
+              style={{ willChange: "transform", animation: "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite" }}
+            />
+            <div
+              className="absolute -bottom-40 -left-40 w-80 h-80 bg-red-300/20 dark:bg-red-500/5 rounded-full blur-3xl"
+              style={{ willChange: "transform", animation: "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite 1.5s" }}
+            />
             <div className="hidden sm:block">
-              <motion.div
-                animate={{ y: [0, -20, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute top-1/4 right-1/4 w-16 h-16 text-4xl opacity-20"
-              >🍅</motion.div>
-              <motion.div
-                animate={{ y: [0, -15, 0] }}
-                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute top-1/3 left-1/4 w-12 h-12 text-3xl opacity-20"
-              >🥬</motion.div>
-              <motion.div
-                animate={{ y: [0, -25, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                className="absolute bottom-1/3 right-1/3 w-14 h-14 text-4xl opacity-20"
-              >🧅</motion.div>
-              <motion.div
-                animate={{ y: [0, -18, 0] }}
-                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-                className="absolute bottom-1/4 left-1/3 w-10 h-10 text-3xl opacity-20"
-              >🌶️</motion.div>
+              {heroDecorIcons.map((d, i) => (
+                <motion.div
+                  key={i}
+                  animate={{ y: [0, -20, 0] }}
+                  transition={{ duration: 4 + i, repeat: Infinity, ease: "easeInOut", delay: d.delay }}
+                  className={`absolute ${d.top || ""} ${d.bottom || ""} ${d.left || ""} ${d.right || ""} w-10 h-10 text-orange-400/20 dark:text-orange-500/15`}
+                >
+                  <FeatureIcon name={d.icon} />
+                </motion.div>
+              ))}
             </div>
           </div>
 
@@ -126,7 +195,7 @@ export default function Home() {
                 transition={{ duration: 0.8, ease: "easeOut" }}
               >
                 <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 text-xs font-semibold rounded-full mb-6">
-                  <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
+                  <span className="w-2 h-2 bg-orange-500 rounded-full" style={{ animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite" }} />
                   AI-Powered Recipe Generator
                 </span>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 dark:text-white leading-[1.1] tracking-tight">
@@ -152,13 +221,16 @@ export default function Home() {
                 </div>
                 <div className="flex flex-wrap items-center gap-x-5 gap-y-2 mt-8 pt-6 border-t border-gray-200 dark:border-gray-800">
                   {[
-                    { label: "AI Recipes", icon: "🤖" },
-                    { label: "Food Images", icon: "🖼️" },
-                    { label: "Recipe Videos", icon: "🎥" },
-                    { label: "Fast Suggestions", icon: "⚡" },
+                    { label: "AI Recipes", icon: "sparkles" },
+                    { label: "Food Images", icon: "image" },
+                    { label: "Recipe Videos", icon: "video" },
+                    { label: "Fast Suggestions", icon: "lightning" },
                   ].map((f) => (
                     <span key={f.label} className="flex items-center gap-1.5 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                      <span className="flex items-center justify-center w-4 h-4 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-[10px] font-bold">✓</span> {f.label}
+                      <span className="flex items-center justify-center w-4 h-4 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400">
+                        <FeatureIcon name="check" className="w-3 h-3" />
+                      </span>
+                      {f.label}
                     </span>
                   ))}
                 </div>
@@ -173,39 +245,47 @@ export default function Home() {
                 <div className="relative">
                   <div className="w-full aspect-square rounded-2xl bg-gradient-to-br from-orange-100 via-red-50 to-orange-50 dark:from-orange-900/20 dark:via-red-900/10 dark:to-orange-900/20 flex items-center justify-center overflow-hidden">
                     <div className="relative w-full h-full flex items-center justify-center">
+                      <div className="w-48 h-48 rounded-full bg-gradient-to-br from-orange-200/60 to-red-200/60 dark:from-orange-800/30 dark:to-red-800/30 flex items-center justify-center">
+                        <svg className="w-24 h-24 text-orange-400/60 dark:text-orange-500/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
+                        </svg>
+                      </div>
                       <motion.div
-                        animate={{ rotate: [0, 5, 0, -5, 0] }}
-                        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                        className="text-[10rem] leading-none"
-                      >🍳</motion.div>
-                      <motion.div
-                        animate={{ y: [0, -15, 0], rotate: [0, 10, 0] }}
+                        animate={{ y: [0, -12, 0], rotate: [0, 8, 0] }}
                         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                        className="absolute top-[15%] right-[15%] text-4xl"
-                      >🥕</motion.div>
-                      <motion.div
-                        animate={{ y: [0, -12, 0], rotate: [0, -10, 0] }}
-                        transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-                        className="absolute bottom-[20%] left-[10%] text-4xl"
-                      >🧄</motion.div>
-                      <motion.div
-                        animate={{ y: [0, -20, 0] }}
-                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                        className="absolute top-[25%] left-[10%] text-3xl"
-                      >🌿</motion.div>
-                      <motion.div
-                        animate={{ scale: [1, 1.1, 1] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                        className="absolute bottom-[30%] right-[10%] px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur rounded-xl shadow-lg text-sm font-medium"
+                        className="absolute top-[18%] right-[18%] w-10 h-10 text-orange-400/30 dark:text-orange-500/20"
                       >
-                        ⭐ 4.9 Rating
+                        <FeatureIcon name="heart" className="w-full h-full" />
+                      </motion.div>
+                      <motion.div
+                        animate={{ y: [0, -10, 0], rotate: [0, -8, 0] }}
+                        transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+                        className="absolute bottom-[22%] left-[12%] w-8 h-8 text-red-400/30 dark:text-red-500/20"
+                      >
+                        <FeatureIcon name="sparkles" className="w-full h-full" />
+                      </motion.div>
+                      <motion.div
+                        animate={{ y: [0, -16, 0] }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                        className="absolute top-[28%] left-[12%] w-7 h-7 text-green-400/30 dark:text-green-500/20"
+                      >
+                        <FeatureIcon name="image" className="w-full h-full" />
+                      </motion.div>
+                      <motion.div
+                        animate={{ scale: [1, 1.08, 1] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                        className="absolute bottom-[30%] right-[10%] px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur rounded-xl shadow-lg text-sm font-medium flex items-center gap-1.5"
+                      >
+                        <FeatureIcon name="star" className="w-4 h-4 text-yellow-500" />
+                        <span className="text-gray-700 dark:text-gray-200">4.9 Rating</span>
                       </motion.div>
                       <motion.div
                         animate={{ scale: [1, 1.05, 1] }}
                         transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-                        className="absolute top-[40%] -right-4 px-3 py-1.5 bg-white/80 dark:bg-gray-800/80 backdrop-blur rounded-xl shadow-lg text-xs font-medium"
+                        className="absolute top-[40%] -right-4 px-3 py-1.5 bg-white/80 dark:bg-gray-800/80 backdrop-blur rounded-xl shadow-lg text-xs font-medium flex items-center gap-1"
                       >
-                        🚀 Instant
+                        <FeatureIcon name="lightning" className="w-3.5 h-3.5 text-orange-500" />
+                        <span className="text-gray-600 dark:text-gray-300">Instant</span>
                       </motion.div>
                     </div>
                   </div>
@@ -221,10 +301,18 @@ export default function Home() {
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-10 left-[10%] w-32 h-32 bg-orange-300/20 dark:bg-orange-500/10 rounded-full blur-3xl" />
             <div className="absolute bottom-10 right-[15%] w-40 h-40 bg-red-300/20 dark:bg-red-500/10 rounded-full blur-3xl" />
-            <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} className="absolute top-8 left-[8%] text-2xl sm:text-3xl opacity-30">🥬</motion.div>
-            <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }} className="absolute top-12 right-[12%] text-2xl sm:text-3xl opacity-30">🧄</motion.div>
-            <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.5 }} className="absolute bottom-16 left-[15%] text-2xl sm:text-3xl opacity-30">🌶️</motion.div>
-            <motion.div animate={{ y: [0, -18, 0] }} transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut", delay: 0.5 }} className="absolute bottom-20 right-[8%] text-2xl sm:text-3xl opacity-30">🍅</motion.div>
+            <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} className="absolute top-8 left-[8%] w-8 h-8 text-orange-400/20">
+              <FeatureIcon name="sparkles" className="w-full h-full" />
+            </motion.div>
+            <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }} className="absolute top-12 right-[12%] w-6 h-6 text-red-400/20">
+              <FeatureIcon name="heart" className="w-full h-full" />
+            </motion.div>
+            <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.5 }} className="absolute bottom-16 left-[15%] w-7 h-7 text-green-400/20">
+              <FeatureIcon name="image" className="w-full h-full" />
+            </motion.div>
+            <motion.div animate={{ y: [0, -18, 0] }} transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut", delay: 0.5 }} className="absolute bottom-20 right-[8%] w-8 h-8 text-orange-400/20">
+              <FeatureIcon name="lightning" className="w-full h-full" />
+            </motion.div>
           </div>
           <div className="relative z-10 w-[90%] max-w-[1400px] mx-auto">
             <motion.div
@@ -343,8 +431,8 @@ export default function Home() {
                     className="group relative p-6 bg-white dark:bg-[#1a1a2e] rounded-2xl border border-orange-100 dark:border-gray-800 shadow-lg shadow-black/5 hover:shadow-2xl hover:shadow-orange-500/15 transition-all overflow-hidden"
                   >
                     <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-orange-500/5 to-transparent rounded-bl-full" />
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 group-hover:rotate-3 transition-transform">
-                      {f.icon}
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-3 transition-transform text-orange-600 dark:text-orange-400">
+                      <FeatureIcon name={f.icon} className="w-6 h-6" />
                     </div>
                     <h3 className="font-bold text-gray-800 dark:text-white mb-2 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">{f.title}</h3>
                     <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">{f.desc}</p>
@@ -369,7 +457,11 @@ export default function Home() {
                   <div className="relative p-6 bg-white dark:bg-[#1a1a2e] rounded-2xl border border-orange-100 dark:border-gray-800 shadow-lg hover:shadow-xl hover:border-orange-200 dark:hover:border-orange-800 transition-all">
                     <div className="absolute top-0 left-0 w-12 h-12 bg-gradient-to-br from-orange-500/10 to-transparent rounded-br-2xl" />
                     <div className="flex items-center gap-3 mb-4">
-                      <span className="text-3xl">{t.avatar}</span>
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white bg-gradient-to-br ${
+                        i === 0 ? "from-orange-500 to-red-500" : i === 1 ? "from-green-500 to-emerald-500" : "from-blue-500 to-purple-500"
+                      }`}>
+                        {t.initials}
+                      </div>
                       <div>
                         <p className="font-semibold text-gray-800 dark:text-white text-sm">{t.name}</p>
                         <p className="text-xs text-gray-500 dark:text-gray-400">{t.role}</p>

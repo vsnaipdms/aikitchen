@@ -95,15 +95,6 @@ export default function IngredientInput({
               </svg>
             </button>
             <button
-              onClick={() => input && add(input)}
-              className="p-3 rounded-xl hover:bg-orange-50 dark:hover:bg-gray-800 text-gray-400 hover:text-orange-500 transition-all"
-              title="Add"
-            >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-              </svg>
-            </button>
-            <button
               onClick={onSearch}
               disabled={ingredients.length === 0 || loading}
               className="px-6 sm:px-8 py-3 sm:py-3.5 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 disabled:from-gray-300 disabled:to-gray-300 dark:disabled:from-gray-700 dark:disabled:to-gray-700 disabled:cursor-not-allowed text-white text-sm sm:text-base font-bold rounded-xl shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:shadow-none"
