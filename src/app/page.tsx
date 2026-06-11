@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import type { Dish } from "@/types";
 import { suggestDishes } from "@/services/ai";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
@@ -171,6 +171,21 @@ export default function Home() {
     { icon: "heart", bottom: "bottom-1/4", left: "left-1/3", delay: 2 },
   ];
 
+  const heroImages = [
+    { url: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=800&fit=crop", label: "Food Spread", type: "Mix" },
+    { url: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=800&fit=crop", label: "Margherita Pizza", type: "Veg" },
+    { url: "https://images.unsplash.com/photo-1546069901-ba95909a1d1a?w=800&h=800&fit=crop", label: "Fresh Garden Salad", type: "Veg" },
+    { url: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&h=800&fit=crop", label: "Grilled Chicken", type: "Non-Veg" },
+    { url: "https://images.unsplash.com/photo-1498837167922-ddd27555a1d0?w=800&h=800&fit=crop", label: "Farm Fresh Veggies", type: "Veg" },
+  ];
+
+  const [heroIndex, setHeroIndex] = useState(0);
+
+  useEffect(() => {
+    const t = setInterval(() => setHeroIndex((p) => (p + 1) % heroImages.length), 4000);
+    return () => clearInterval(t);
+  }, [heroImages.length]);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -256,19 +271,27 @@ export default function Home() {
                 transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
                 className="relative hidden lg:block"
               >
-                <div className="relative w-full aspect-square rounded-2xl overflow-hidden shadow-2xl">
-                  <img
-                    src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=800&fit=crop"
-                    alt="Delicious food spread"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+                <div className="relative w-full aspect-square rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-orange-100 to-red-100 dark:from-orange-900/20 dark:to-red-900/20">
+                  {/* Crossfade carousel */}
+                  <AnimatePresence mode="wait">
+                    <motion.img
+                      key={heroIndex}
+                      src={heroImages[heroIndex].url}
+                      alt={heroImages[heroIndex].label}
+                      initial={{ opacity: 0, scale: 1.08 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.8, ease: "easeInOut" }}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  </AnimatePresence>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/5 to-transparent" />
 
                   {/* Decorative image badges */}
                   <motion.div
-                    animate={{ y: [0, -10, 0], rotate: [0, 6, 0] }}
+                    animate={{ y: [0, -10, 0], rotate: [0, 8, 0] }}
                     transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute -top-3 -right-3 w-28 h-28 rounded-2xl overflow-hidden shadow-xl border-2 border-white dark:border-gray-800 rotate-6"
+                    className="absolute top-3 right-3 w-28 h-28 rounded-2xl overflow-hidden shadow-xl border-2 border-white/80 dark:border-gray-800 rotate-6 z-10"
                   >
                     <img
                       src="https://images.unsplash.com/photo-1546069901-ba95909a1d1a?w=200&h=200&fit=crop"
@@ -277,29 +300,48 @@ export default function Home() {
                     />
                   </motion.div>
                   <motion.div
-                    animate={{ y: [0, -12, 0], rotate: [0, -4, 0] }}
+                    animate={{ y: [0, -12, 0], rotate: [0, -5, 0] }}
                     transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-                    className="absolute -bottom-2 -left-4 w-24 h-24 rounded-2xl overflow-hidden shadow-xl border-2 border-white dark:border-gray-800 -rotate-3"
+                    className="absolute bottom-1/3 -left-4 w-24 h-24 rounded-2xl overflow-hidden shadow-xl border-2 border-white/80 dark:border-gray-800 -rotate-3 z-10"
                   >
                     <img
-                      src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=200&h=200&fit=crop"
-                      alt="Pizza"
+                      src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=200&h=200&fit=crop"
+                      alt="Grilled chicken"
                       className="w-full h-full object-cover"
                     />
+                  </motion.div>
+
+                  {/* Food type badge */}
+                  <motion.div
+                    key={`type-${heroIndex}`}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="absolute top-4 left-4 z-10"
+                  >
+                    <span className={`text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-sm shadow-lg ${
+                      heroImages[heroIndex].type === "Veg"
+                        ? "bg-green-500/90 text-white"
+                        : heroImages[heroIndex].type === "Non-Veg"
+                        ? "bg-red-500/90 text-white"
+                        : "bg-orange-500/90 text-white"
+                    }`}>
+                      {heroImages[heroIndex].type}
+                    </span>
                   </motion.div>
 
                   {/* Floating animated icons */}
                   <motion.div
                     animate={{ y: [0, -14, 0] }}
                     transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute top-4 right-4 w-10 h-10 bg-white/90 dark:bg-gray-800/90 backdrop-blur rounded-xl shadow-lg flex items-center justify-center"
+                    className="absolute top-1/4 right-4 w-10 h-10 bg-white/90 dark:bg-gray-800/90 backdrop-blur rounded-xl shadow-lg flex items-center justify-center z-10"
                   >
                     <FeatureIcon name="heart" className="w-5 h-5 text-red-500" />
                   </motion.div>
                   <motion.div
                     animate={{ y: [0, -10, 0] }}
                     transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                    className="absolute top-1/3 left-3 w-9 h-9 bg-white/90 dark:bg-gray-800/90 backdrop-blur rounded-xl shadow-lg flex items-center justify-center"
+                    className="absolute bottom-1/2 left-4 w-9 h-9 bg-white/90 dark:bg-gray-800/90 backdrop-blur rounded-xl shadow-lg flex items-center justify-center z-10"
                   >
                     <FeatureIcon name="sparkles" className="w-4 h-4 text-orange-500" />
                   </motion.div>
@@ -308,11 +350,26 @@ export default function Home() {
                   <motion.div
                     animate={{ scale: [1, 1.06, 1] }}
                     transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute bottom-4 right-4 px-3.5 py-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur rounded-xl shadow-lg text-sm font-medium flex items-center gap-1.5"
+                    className="absolute bottom-4 right-4 px-3.5 py-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur rounded-xl shadow-lg flex items-center gap-1.5 z-10"
                   >
                     <FeatureIcon name="star" className="w-4 h-4 text-yellow-500" />
-                    <span className="text-gray-700 dark:text-gray-200 font-semibold">4.9</span>
+                    <span className="text-gray-700 dark:text-gray-200 text-sm font-semibold">4.9</span>
                   </motion.div>
+
+                  {/* Carousel dots */}
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10">
+                    {heroImages.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setHeroIndex(i)}
+                        className={`rounded-full transition-all ${
+                          i === heroIndex
+                            ? "w-5 h-2 bg-white shadow-md"
+                            : "w-2 h-2 bg-white/50 hover:bg-white/70"
+                        }`}
+                      />
+                    ))}
+                  </div>
                 </div>
               </motion.div>
             </div>
