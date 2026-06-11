@@ -174,9 +174,9 @@ export default function Home() {
   const heroImages = [
     { url: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=800&fit=crop", label: "Food Spread", type: "Mix" },
     { url: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=800&fit=crop", label: "Margherita Pizza", type: "Veg" },
-    { url: "https://images.unsplash.com/photo-1546069901-ba95909a1d1a?w=800&h=800&fit=crop", label: "Fresh Garden Salad", type: "Veg" },
+    { url: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=800&fit=crop", label: "Fresh Garden Salad", type: "Veg" },
     { url: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&h=800&fit=crop", label: "Grilled Chicken", type: "Non-Veg" },
-    { url: "https://images.unsplash.com/photo-1498837167922-ddd27555a1d0?w=800&h=800&fit=crop", label: "Farm Fresh Veggies", type: "Veg" },
+    { url: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&h=800&fit=crop", label: "Healthy Bowl", type: "Veg" },
   ];
 
   const [heroIndex, setHeroIndex] = useState(0);
@@ -294,7 +294,7 @@ export default function Home() {
                     className="absolute top-3 right-3 w-28 h-28 rounded-2xl overflow-hidden shadow-xl border-2 border-white/80 dark:border-gray-800 rotate-6 z-10"
                   >
                     <img
-                      src="https://images.unsplash.com/photo-1546069901-ba95909a1d1a?w=200&h=200&fit=crop"
+                      src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=200&h=200&fit=crop"
                       alt="Fresh salad"
                       className="w-full h-full object-cover"
                     />
