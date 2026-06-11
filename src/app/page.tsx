@@ -118,13 +118,6 @@ export default function Home() {
   const [toast, setToast] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log("Component mounted");
-    console.log("STORAGE_KEYS.RECENT =", STORAGE_KEYS.RECENT);
-    console.log("localStorage on mount:", JSON.stringify(localStorage));
-    console.log("localStorage recent value on mount:", localStorage.getItem(STORAGE_KEYS.RECENT));
-  }, []);
-
-  useEffect(() => {
     if (toast) {
       const t = setTimeout(() => setToast(null), 2000);
       return () => clearTimeout(t);
@@ -132,19 +125,8 @@ export default function Home() {
   }, [toast]);
 
   function handleClear() {
-    console.log("Clear button clicked");
-    console.log("STORAGE_KEYS.RECENT =", STORAGE_KEYS.RECENT);
-    console.log("localStorage keys:", Object.keys(localStorage));
-    console.log("localStorage recent value before:", localStorage.getItem(STORAGE_KEYS.RECENT));
-    console.log("Before clear - recentSearches:", recentSearches);
-
     setRecentSearches([]);
     localStorage.removeItem(STORAGE_KEYS.RECENT);
-
-    console.log("After clear - recentSearches set to: []");
-    console.log("localStorage keys after removeItem:", Object.keys(localStorage));
-    console.log("localStorage recent value after:", localStorage.getItem(STORAGE_KEYS.RECENT));
-
     setToast("Recent searches cleared");
   }
 
@@ -166,8 +148,6 @@ export default function Home() {
       const result = await suggestDishes(ingredients);
       setDishes(result);
       const q = ingredients.join(", ");
-      console.log("Saving search with key:", STORAGE_KEYS.RECENT);
-      console.log("localStorage keys on save:", Object.keys(localStorage));
       setRecentSearches((prev) => [q, ...prev.filter((s) => s !== q)].slice(0, 8));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
@@ -276,53 +256,63 @@ export default function Home() {
                 transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
                 className="relative hidden lg:block"
               >
-                <div className="relative">
-                  <div className="w-full aspect-square rounded-2xl bg-gradient-to-br from-orange-100 via-red-50 to-orange-50 dark:from-orange-900/20 dark:via-red-900/10 dark:to-orange-900/20 flex items-center justify-center overflow-hidden">
-                    <div className="relative w-full h-full flex items-center justify-center">
-                      <div className="w-48 h-48 rounded-full bg-gradient-to-br from-orange-200/60 to-red-200/60 dark:from-orange-800/30 dark:to-red-800/30 flex items-center justify-center">
-                        <svg className="w-24 h-24 text-orange-400/60 dark:text-orange-500/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
-                        </svg>
-                      </div>
-                      <motion.div
-                        animate={{ y: [0, -12, 0], rotate: [0, 8, 0] }}
-                        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                        className="absolute top-[18%] right-[18%] w-10 h-10 text-orange-400/30 dark:text-orange-500/20"
-                      >
-                        <FeatureIcon name="heart" className="w-full h-full" />
-                      </motion.div>
-                      <motion.div
-                        animate={{ y: [0, -10, 0], rotate: [0, -8, 0] }}
-                        transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-                        className="absolute bottom-[22%] left-[12%] w-8 h-8 text-red-400/30 dark:text-red-500/20"
-                      >
-                        <FeatureIcon name="sparkles" className="w-full h-full" />
-                      </motion.div>
-                      <motion.div
-                        animate={{ y: [0, -16, 0] }}
-                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                        className="absolute top-[28%] left-[12%] w-7 h-7 text-green-400/30 dark:text-green-500/20"
-                      >
-                        <FeatureIcon name="image" className="w-full h-full" />
-                      </motion.div>
-                      <motion.div
-                        animate={{ scale: [1, 1.08, 1] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                        className="absolute bottom-[30%] right-[10%] px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur rounded-xl shadow-lg text-sm font-medium flex items-center gap-1.5"
-                      >
-                        <FeatureIcon name="star" className="w-4 h-4 text-yellow-500" />
-                        <span className="text-gray-700 dark:text-gray-200">4.9 Rating</span>
-                      </motion.div>
-                      <motion.div
-                        animate={{ scale: [1, 1.05, 1] }}
-                        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-                        className="absolute top-[40%] -right-4 px-3 py-1.5 bg-white/80 dark:bg-gray-800/80 backdrop-blur rounded-xl shadow-lg text-xs font-medium flex items-center gap-1"
-                      >
-                        <FeatureIcon name="lightning" className="w-3.5 h-3.5 text-orange-500" />
-                        <span className="text-gray-600 dark:text-gray-300">Instant</span>
-                      </motion.div>
-                    </div>
-                  </div>
+                <div className="relative w-full aspect-square rounded-2xl overflow-hidden shadow-2xl">
+                  <img
+                    src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=800&fit=crop"
+                    alt="Delicious food spread"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+
+                  {/* Decorative image badges */}
+                  <motion.div
+                    animate={{ y: [0, -10, 0], rotate: [0, 6, 0] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute -top-3 -right-3 w-28 h-28 rounded-2xl overflow-hidden shadow-xl border-2 border-white dark:border-gray-800 rotate-6"
+                  >
+                    <img
+                      src="https://images.unsplash.com/photo-1546069901-ba95909a1d1a?w=200&h=200&fit=crop"
+                      alt="Fresh salad"
+                      className="w-full h-full object-cover"
+                    />
+                  </motion.div>
+                  <motion.div
+                    animate={{ y: [0, -12, 0], rotate: [0, -4, 0] }}
+                    transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+                    className="absolute -bottom-2 -left-4 w-24 h-24 rounded-2xl overflow-hidden shadow-xl border-2 border-white dark:border-gray-800 -rotate-3"
+                  >
+                    <img
+                      src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=200&h=200&fit=crop"
+                      alt="Pizza"
+                      className="w-full h-full object-cover"
+                    />
+                  </motion.div>
+
+                  {/* Floating animated icons */}
+                  <motion.div
+                    animate={{ y: [0, -14, 0] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute top-4 right-4 w-10 h-10 bg-white/90 dark:bg-gray-800/90 backdrop-blur rounded-xl shadow-lg flex items-center justify-center"
+                  >
+                    <FeatureIcon name="heart" className="w-5 h-5 text-red-500" />
+                  </motion.div>
+                  <motion.div
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                    className="absolute top-1/3 left-3 w-9 h-9 bg-white/90 dark:bg-gray-800/90 backdrop-blur rounded-xl shadow-lg flex items-center justify-center"
+                  >
+                    <FeatureIcon name="sparkles" className="w-4 h-4 text-orange-500" />
+                  </motion.div>
+
+                  {/* Rating badge */}
+                  <motion.div
+                    animate={{ scale: [1, 1.06, 1] }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute bottom-4 right-4 px-3.5 py-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur rounded-xl shadow-lg text-sm font-medium flex items-center gap-1.5"
+                  >
+                    <FeatureIcon name="star" className="w-4 h-4 text-yellow-500" />
+                    <span className="text-gray-700 dark:text-gray-200 font-semibold">4.9</span>
+                  </motion.div>
                 </div>
               </motion.div>
             </div>
